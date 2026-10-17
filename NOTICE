@@ -1,0 +1,15 @@
+@sandom/image-codecs
+Copyright 2026 DevBlanket AB
+
+Image decoder runtime dependencies
+
+dist/jpeg.wasm contains unmodified zune-jpeg 0.5.15, zune-core 0.5.1,
+dlmalloc 0.2.14 and cfg-if 1.0.4.
+
+dist/webp.wasm contains unmodified image-webp 0.2.4, byteorder-lite 0.1.0
+and quick-error 2.0.1.
+
+This package uses the MIT terms of each crate. The complete license texts
+that each crate offers are in docs/legal/licenses/rust-crates/, which ships
+with the package. docs/legal/image-decoders.md records the versions, the
+lockfile digests and the build procedure.

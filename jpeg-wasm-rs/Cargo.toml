@@ -1,0 +1,25 @@
+[package]
+name = "jpeg-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Pure Rust, baseline + progressive, no C and no build script - which is
+# why this is the decoder that got vendored. `std` is off: the only thing
+# used from it would be the allocator, and dlmalloc (below) provides that
+# for wasm directly, cutting the module from ~180 KB to ~90 KB.
+zune-jpeg = { version = "0.5.15", default-features = false }
+
+[target.wasm32-unknown-unknown.dependencies]
+dlmalloc = { version = "0.2", features = ["global"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -1,0 +1,26 @@
+{
+  "name": "@sandom/image-codecs",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Import-free JPEG and WebP decoders for WebAssembly consumers.",
+  "exports": {
+    "./jpeg.wasm": "./dist/jpeg.wasm",
+    "./webp.wasm": "./dist/webp.wasm"
+  },
+  "files": [
+    "dist/jpeg.wasm",
+    "dist/webp.wasm",
+    "docs",
+    "README.md",
+    "DESIGN.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": { "access": "public" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandoviac/sandom-image-codecs.git"
+  }
+}

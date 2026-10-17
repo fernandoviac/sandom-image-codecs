@@ -1,0 +1,4 @@
+# Cargo's build directory. The build ARTIFACT that matters is committed
+# as dist/webp.wasm (build.sh copies it there), same convention as
+# jpeg-wasm-rs next door — nothing here needs to survive.
+target/

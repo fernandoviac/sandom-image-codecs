@@ -1,0 +1,8 @@
+{
+  "fmt": { "exclude": ["."] },
+  "tasks": {
+    "build": "./jpeg-wasm-rs/build.sh && ./webp-wasm-rs/build.sh",
+    "test": "deno test --allow-read test/",
+    "package:check": "deno run -A tools/check-package.js"
+  }
+}

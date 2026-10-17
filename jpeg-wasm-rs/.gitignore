@@ -1,0 +1,4 @@
+# Cargo's build directory. The build ARTIFACT that matters is committed
+# as dist/jpeg.wasm (build.sh copies it there) — nothing here needs to
+# survive.
+target/

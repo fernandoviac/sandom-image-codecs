@@ -1,0 +1,27 @@
+[package]
+name = "webp-wasm"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Pure Rust, lossy (VP8) and lossless (VP8L), no C and no build script -
+# the same test this project applied to zune-jpeg next door.
+#
+# Unlike jpeg-wasm, this one is a `std` build. image-webp's decoder is
+# generic over `BufRead + Seek`, which are std traits with no no_std
+# equivalent in the crate, so `default-features = false` buys nothing
+# here and dlmalloc is not wired in - std's allocator comes along
+# anyway. That costs module size (measured in build.sh's own note) and
+# is the honest trade rather than a fork of the crate.
+image-webp = "0.2.4"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
