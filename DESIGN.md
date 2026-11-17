@@ -15,6 +15,8 @@ and this export surface:
 | `pixels` | `() -> i32` | Address of the decoded RGBA8 pixels. |
 | `release` | `() -> ()` | Frees the input and output buffers. |
 | `frames` | `() -> i32` | WebP only: frame count of an animation that `decode` refused with -4, or 0. |
+| `status_message` | `(status: i32) -> i32` | Address of the UTF-8 text of a `decode` status other than 0 and -4; "unknown decoder status" for an unknown value. |
+| `status_message_length` | `(status: i32) -> i32` | Byte length of that text. |
 
 A host calls `alloc`, writes the encoded bytes at the returned address, calls
 `decode`, reads `width`, `height` and `width * height * 4` bytes at `pixels`,

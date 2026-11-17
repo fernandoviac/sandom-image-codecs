@@ -57,6 +57,16 @@ for (const name of ["jpeg.wasm", "webp.wasm"]) {
     const status = exports.decode();
     assert(status === -1, `expected -1, got ${status}`);
   });
+
+  Deno.test(`${name}: status messages name the failure and fall back for an unknown status`, async () => {
+    const { exports } = await instantiate(name);
+    const text = (status) => new TextDecoder().decode(
+      new Uint8Array(exports.memory.buffer, exports.status_message(status), exports.status_message_length(status)));
+    assert(text(-1) === "internal error: decode() called before alloc()", `-1: ${text(-1)}`);
+    assert(text(-2).startsWith("not a decodable "), `-2: ${text(-2)}`);
+    assert(text(-3).startsWith("internal error: decoder returned a buffer"), `-3: ${text(-3)}`);
+    assert(text(7) === "unknown decoder status", `7: ${text(7)}`);
+  });
 }
 
 Deno.test("jpeg.wasm: a baseline JPEG decodes to opaque RGBA8 at its intrinsic size", async () => {

@@ -149,6 +149,29 @@ pub extern "C" fn frames() -> u32 {
     state().map_or(0, |s| s.frames)
 }
 
+/// The text of a nonzero `decode` status other than -4 (whose message
+/// names the frame count), UTF-8 at `status_message` with
+/// `status_message_length` bytes; "unknown decoder status" for another
+/// value.
+fn message(status: i32) -> &'static str {
+    match status {
+        -1 => "internal error: decode() called before alloc()",
+        -2 => "not a decodable WebP (truncated, corrupt, or an unsupported variant)",
+        -3 => "internal error: decoder returned a buffer that is neither width*height*3 nor *4",
+        _ => "unknown decoder status",
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn status_message(status: i32) -> *const u8 {
+    message(status).as_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn status_message_length(status: i32) -> usize {
+    message(status).len()
+}
+
 /// Frees both buffers. JS calls this after copying the pixels out, so a
 /// decoded photo does not sit in linear memory until the next decode
 /// happens to overwrite it.

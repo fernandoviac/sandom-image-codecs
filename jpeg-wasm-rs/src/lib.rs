@@ -115,6 +115,28 @@ pub extern "C" fn pixels() -> *const u8 {
     state().map_or(core::ptr::null(), |s| s.pixels.as_ptr())
 }
 
+/// The text of a nonzero `decode` status, UTF-8 at `status_message` with
+/// `status_message_length` bytes; "unknown decoder status" for another
+/// value.
+fn message(status: i32) -> &'static str {
+    match status {
+        -1 => "internal error: decode() called before alloc()",
+        -2 => "not a decodable JPEG (truncated, corrupt, or an unsupported variant such as 12-bit or arithmetic-coded)",
+        -3 => "internal error: decoder returned a buffer that is not width*height*4 RGBA bytes",
+        _ => "unknown decoder status",
+    }
+}
+
+#[no_mangle]
+pub extern "C" fn status_message(status: i32) -> *const u8 {
+    message(status).as_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn status_message_length(status: i32) -> usize {
+    message(status).len()
+}
+
 /// Frees both buffers. JS calls this after copying the pixels out, so a
 /// decoded photo does not sit in linear memory until the next decode
 /// happens to overwrite it.
